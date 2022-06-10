@@ -50,11 +50,41 @@ class _CommentsScreenState extends State<CommentsScreen> {
             );
           }
           if (snapshot.hasData) {
-            return ListView.builder(
-                itemCount: (snapshot.data! as dynamic).docs.length,
-                itemBuilder: (context, index) => CommentCard(
-                      snap: (snapshot.data! as dynamic).docs[index],
-                    ));
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 18, horizontal: 16),
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            widget.snap['profileImage'],
+                          ),
+                          radius: 18,
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                              ' ${(widget.snap as dynamic)['username']}  ${(widget.snap as dynamic)['description']}'),
+                        ],
+                      )
+                    ],
+                  ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: (snapshot.data! as dynamic).docs.length,
+                      itemBuilder: (context, index) {
+                        return CommentCard(
+                          snap: (snapshot.data! as dynamic).docs[index],
+                        );
+                      }),
+                ],
+              ),
+            );
           } else {
             return const Center(
               child: CircularProgressIndicator(),

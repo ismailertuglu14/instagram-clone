@@ -10,6 +10,7 @@ import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:instagram_clone/screens/edit_profile_screen.dart';
 import 'package:instagram_clone/screens/following_screens.dart';
 import 'package:instagram_clone/screens/login_screen.dart';
+import 'package:instagram_clone/screens/user_posts_screen.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/follow_button.dart';
@@ -267,12 +268,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           itemBuilder: (context, index) {
                             DocumentSnapshot snap =
                                 (snapshot.data! as dynamic).docs[index];
-                            return Container(
-                              child: Image(
-                                image: NetworkImage(
-                                  (snap.data()! as dynamic)['postUrl'],
+                            return InkWell(
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => UserPostsScreen(),
                                 ),
-                                fit: BoxFit.cover,
+                              ),
+                              child: Container(
+                                child: Image(
+                                  image: NetworkImage(
+                                    (snap.data()! as dynamic)['postUrl'],
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             );
                           });
